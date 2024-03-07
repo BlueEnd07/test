@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Web Scraper Client</title>
+</head>
+<body>
+<h1>Web Scraper Client</h1>
+<input type="text" id="search-input" placeholder="Search product" />
+<button id="search-button">Search</button>
+<br />
+<div id="data-container"></div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const searchInput = document.getElementById("search-input");
+      const searchButton = document.getElementById("search-button");
+      const dataContainer = document.getElementById("data-container");
+
+      searchButton.addEventListener("click", async function () {
+        const product = searchInput.value;
+        const options = {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'User-Agent': 'insomnia/2023.5.8'
+          },
+          body: JSON.stringify({ product })
+        };
+
+        fetch('http://localhost:3000/q', options)
+          .then(response => response.json())
+          .then(data => {
+            console.log(data);
+            dataContainer.innerText = JSON.stringify(data, null, 2);
+          })
+          .catch(err => console.error(err));
+      });
+    });
+  </script>
+</body>
+</html>
+
