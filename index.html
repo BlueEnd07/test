@@ -28,7 +28,7 @@
           body: JSON.stringify({ product })
         };
 
-        fetch('http://localhost:3000/q', options)
+        fetch('https://js-web-scrapper.vercel.app/q', options)
           .then(response => response.json())
           .then(data => {
             console.log(data);
