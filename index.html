@@ -7,37 +7,26 @@
 </head>
 <body>
 <h1>Web Scraper Client</h1>
-<input type="text" id="search-input" placeholder="Search product" />
+<input type="text" id="search-input" placeholder="Enter product name">
 <button id="search-button">Search</button>
-<br />
-<div id="data-container"></div>
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const searchInput = document.getElementById("search-input");
-      const searchButton = document.getElementById("search-button");
-      const dataContainer = document.getElementById("data-container");
+  document.getElementById("search-button").addEventListener("click", async function () {
+    const product = document.getElementById("search-input").value.trim();
+    if (!product) {
+      alert("Please enter a product name.");
+      return;
+    }
 
-      searchButton.addEventListener("click", async function () {
-        const product = searchInput.value;
-        const options = {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'User-Agent': 'insomnia/2023.5.8'
-          },
-          body: JSON.stringify({ product })
-        };
-
-        fetch('https://js-web-scrapper.vercel.app/q', options)
-          .then(response => response.json())
-          .then(data => {
-            console.log(data);
-            dataContainer.innerText = JSON.stringify(data, null, 2);
-          })
-          .catch(err => console.error(err));
-      });
-    });
-  </script>
+    try {
+      const response = await fetch(`http://localhost:3000/r?product=${product}`);
+      const data = await response.json();
+      console.log(data); // Log the response data to the console
+    } catch (error) {
+      console.error('Error:', error);
+      alert('An error occurred while fetching data. Please try again later.');
+    }
+  });
+</script>
 </body>
 </html>
 
